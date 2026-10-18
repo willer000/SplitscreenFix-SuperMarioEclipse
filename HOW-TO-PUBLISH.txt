@@ -1,0 +1,32 @@
+SplitscreenFix — local packaging and GitHub publishing / Empacotamento e GitHub
+
+1. Extract this kit to a folder, e.g. Downloads\SplitscreenFix-Publishing-Kit.
+   Extraia este kit numa pasta, ex. Downloads\SplitscreenFix-Publishing-Kit.
+
+2. Open PowerShell and run:
+   powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\SplitscreenFix-Publishing-Kit\Build-And-Publish.ps1"
+
+   This creates:
+   C:\SplitscreenFix\Release\SplitscreenFix-Windows-x64.zip
+   C:\SplitscreenFix\Release\Repository\
+
+3. Test the ZIP on a clean extracted folder. Confirm SOLO, CO-OP, LOG, No Gamepad,
+   keyboard/mouse focus, window layout, and all gamepads work correctly.
+   Teste o ZIP em uma pasta limpa antes de compartilhar.
+
+4. Check the source/artwork/executable licenses. DO NOT publish without permission
+   for the modified PC-port executable and artwork.
+   Confira as licencas do executavel, bibliotecas, fontes e imagens.
+
+5. Connect GitHub CLI to your own GitHub account:
+   winget install Git.Git
+   winget install GitHub.cli
+   gh auth login
+
+6. To publish a PUBLIC repository and attach the ZIP to a GitHub Release:
+   powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\SplitscreenFix-Publishing-Kit\Build-And-Publish.ps1" -PublishGitHub -ConfirmRedistributionRights
+
+   To create a PRIVATE repository, also pass -PrivateRepository.
+
+Note: The builder preserves technical file names used internally by the existing
+installer, but gives all user-facing files simple PT-BR/EN-friendly names.

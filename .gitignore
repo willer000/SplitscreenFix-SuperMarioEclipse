@@ -1,0 +1,36 @@
+# Private settings / Configuracoes pessoais
+SplitscreenFix.config.json
+*.config.local.json
+.env
+.env.*
+*token*
+*secret*
+
+# Game data / Dados de jogo
+*.iso
+*.gcm
+*.rvz
+*.wbfs
+*.sav
+*.gci
+*.raw
+save-mario/
+save-luigi/
+Data/
+Debug/
+logs-*/
+solo-*/
+*.log
+*.pml
+
+# Build & release files / Compilados e releases
+Release/
+*.zip
+*.7z
+*.rar
+*.exe
+*.dll
+*.pdb
+obj/
+bin/
+.vs/
