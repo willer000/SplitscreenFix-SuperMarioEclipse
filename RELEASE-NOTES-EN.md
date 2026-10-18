@@ -15,4 +15,4 @@ For instructions in both languages, see `README-EN.md` and `README-PT-BR.md`.
 - Device and game log diagnostics
 - English / Brazilian Portuguese UI
 
-**Before publishing:** Confirm the bundled launcher supports the listed controls, and confirm you have redistribution permission for included third-party binaries and artwork. The ISO and personal files must not be included.
+The ISO and personal files are not included. Full gameplay with two gamepads has not been validated on this restored build.
