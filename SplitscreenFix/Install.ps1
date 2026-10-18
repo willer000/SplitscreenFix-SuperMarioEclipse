@@ -56,7 +56,12 @@ try {
         if ($relative -match '(^[\\/]|\.\.|:)' -or -not $relative) { throw 'Manifesto de arquivos invalido.' }
         $full = Join-Path $root $relative
         if (-not (Test-Path -LiteralPath $full -PathType Leaf)) { throw "Arquivo ausente: $relative" }
-        $actual = (Get-FileHash -LiteralPath $full -Algorithm SHA256).Hash
+        $stream = [IO.File]::OpenRead($full)
+        try {
+            $sha = [Security.Cryptography.SHA256]::Create()
+            try { $actual = ([BitConverter]::ToString($sha.ComputeHash($stream))).Replace('-', '') }
+            finally { $sha.Dispose() }
+        } finally { $stream.Dispose() }
         if ($actual -ne [string]$item.Sha256) {
             throw "Arquivo danificado ou alterado: $relative. Extraia o ZIP novamente."
         }
@@ -71,7 +76,7 @@ try {
         $IsoPath = $candidates | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf } | Select-Object -First 1
     }
     if (-not $IsoPath -and -not $Quiet) { $IsoPath = Select-EclipseIso }
-    if (-not $IsoPath) { throw 'ISO nao selecionada. Use Instalar.cmd e escolha Super Mario Eclipse v1.1.0.iso.' }
+    if (-not $IsoPath) { throw 'ISO nao selecionada. Use Setup-Install.cmd e escolha Super Mario Eclipse v1.1.0.iso.' }
     $IsoPath = [IO.Path]::GetFullPath($IsoPath)
     if (-not (Test-Path -LiteralPath $IsoPath -PathType Leaf)) { throw "ISO nao encontrada: $IsoPath" }
     $iso = Get-Item -LiteralPath $IsoPath
