@@ -1,0 +1,138 @@
+diff --git a/platform/gx/src/gx_platform.cpp b/platform/gx/src/gx_platform.cpp
+index 9c43502..080a019 100644
+--- a/platform/gx/src/gx_platform.cpp
++++ b/platform/gx/src/gx_platform.cpp
+@@ -73,6 +73,12 @@ SDL_Window* s_window = nullptr;
+ SDL_GLContext s_glctx = nullptr;
+ void (*s_eventCb)(const SDL_Event*) = nullptr;
+ std::vector<SDL_GameController*> s_pads;
++// SMS_PAD_BIND_PATH contains a single VID:PID. Each process polls its own file
++// so the launcher can change controllers without restarting a multiplayer game.
++const char* s_padBindPath = nullptr;
++Uint16 s_padVendor = 0, s_padProduct = 0;
++bool s_padBindingActive = false;
++Uint32 s_padBindCheckedAt = 0;
+ // sms_gx_rumble: the controller it goes to (the one last pressed or pushed,
+ // else the first opened; -1 for none), the one rumbling now, and the last
+ // strength sent with when.
+@@ -821,6 +827,67 @@ void sms_gx_set_event_callback(void (*cb)(const union SDL_Event*)) {
+ 
+ #ifdef SMS_GX_HAVE_SDL2
+ extern "C" void GXPC_NoteInputDevice(int controller, int sdlType, const char* name);
++extern "C" void sms_pad_release_controller(void);
++
++static bool assignedController(SDL_JoystickID id) {
++    if (!s_padBindingActive) return true;
++    SDL_GameController* c = SDL_GameControllerFromInstanceID(id);
++    if (!c) return false;
++    SDL_Joystick* j = SDL_GameControllerGetJoystick(c);
++    return SDL_JoystickGetVendor(j) == s_padVendor && SDL_JoystickGetProduct(j) == s_padProduct;
++}
++
++static void chooseAssignedRumblePad() {
++    s_rumblePad = -1;
++    for (SDL_GameController* c : s_pads) {
++        if (!SDL_GameControllerGetAttached(c)) continue;
++        SDL_JoystickID id = SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(c));
++        if (assignedController(id)) { s_rumblePad = id; break; }
++    }
++}
++
++static void readPadBinding() {
++    if (!s_padBindPath) {
++        s_padBindPath = getenv("SMS_PAD_BIND_PATH");
++        if (!s_padBindPath || !*s_padBindPath) { s_padBindPath = ""; return; }
++    }
++    if (!*s_padBindPath) return;
++    const Uint32 now = SDL_GetTicks();
++    if (s_padBindCheckedAt && now - s_padBindCheckedAt < 100) return;
++    s_padBindCheckedAt = now ? now : 1;
++    FILE* f = fopen(s_padBindPath, "rb");
++    if (!f) return; // Atomic replacement may briefly leave the path absent.
++    char line[32] = {};
++    const bool got = fgets(line, sizeof line, f) != nullptr;
++    fclose(f);
++    unsigned vendor = 0, product = 0;
++    char extra = 0;
++    if (!got || sscanf(line, "%4x:%4x %c", &vendor, &product, &extra) != 2 ||
++        !vendor || !product || vendor > 0xffff || product > 0xffff) return;
++    if (s_padBindingActive && vendor == s_padVendor && product == s_padProduct) return;
++    // Stop rumble before the old pad is released.
++    if (s_rumbling >= 0) {
++        if (SDL_GameController* old = SDL_GameControllerFromInstanceID(s_rumbling))
++            SDL_GameControllerRumble(old, 0, 0, 0);
++        s_rumbling = -1;
++        s_rumbleSent = 0;
++    }
++    s_padVendor = Uint16(vendor);
++    s_padProduct = Uint16(product);
++    s_padBindingActive = true;
++    chooseAssignedRumblePad();
++    sms_pad_release_controller();
++    fprintf(stderr, "[pad] live binding: %04x:%04x (%s)\n", vendor, product, s_rumblePad >= 0 ? "connected" : "waiting");
++    // The acknowledgement lets the launcher distinguish an applied binding
++    // from an old build that never reads this file.
++    char ack[1024];
++    if (snprintf(ack, sizeof ack, "%s.ack", s_padBindPath) < int(sizeof ack)) {
++        if (FILE* out = fopen(ack, "wb")) {
++            fprintf(out, "%04x:%04x\n", vendor, product);
++            fclose(out);
++        }
++    }
++}
+ 
+ // Tell the button prompts which device the player last used: a key, mouse
+ // click or mouse movement means keyboard and mouse; a button or a stick pushed
+@@ -847,15 +914,18 @@ static void noteInputDevice(const SDL_Event& ev) {
+ void sms_gx_pump_events(void) {
+ #ifdef SMS_GX_HAVE_SDL2
+     if (s_mode != MODE_WINDOW) return;
++    readPadBinding();
+     SDL_Event ev;
+     while (SDL_PollEvent(&ev)) {
++        if ((ev.type == SDL_CONTROLLERBUTTONDOWN || ev.type == SDL_CONTROLLERBUTTONUP) && !assignedController(ev.cbutton.which)) continue;
++        if (ev.type == SDL_CONTROLLERAXISMOTION && !assignedController(ev.caxis.which)) continue;
+         if (!menuVisible()) noteInputDevice(ev);
+         switch (ev.type) {
+         case SDL_CONTROLLERDEVICEADDED:
+             if (SDL_IsGameController(ev.cdevice.which)) {
+                 if (SDL_GameController* c = SDL_GameControllerOpen(ev.cdevice.which)) {
+                     s_pads.push_back(c);
+-                    if (s_rumblePad < 0) s_rumblePad = SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(c));
++                    if (s_rumblePad < 0) chooseAssignedRumblePad();
+                 }
+             }
+             break;
+@@ -870,8 +940,10 @@ void sms_gx_pump_events(void) {
+                 s_rumbling = -1;
+                 s_rumbleSent = 0;
+             }
+-            if (s_rumblePad == ev.cdevice.which)
+-                s_rumblePad = s_pads.empty() ? -1 : SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(s_pads[0]));
++            if (s_rumblePad == ev.cdevice.which) {
++                chooseAssignedRumblePad();
++                sms_pad_release_controller();
++            }
+             break;
+         default:
+             break;
+diff --git a/platform/pad/pad.cpp b/platform/pad/pad.cpp
+index 0539595..9d821cf 100644
+--- a/platform/pad/pad.cpp
++++ b/platform/pad/pad.cpp
+@@ -247,6 +247,15 @@ void release_all()
+ 	g_mouseDX = g_mouseDY = 0;
+ }
+ 
++// Called by GX when the live controller assignment changes. Preserve keyboard
++// state while dropping held buttons and axes from the previously assigned pad.
++extern "C" void sms_pad_release_controller(void)
++{
++	memset(g_axis, 0, sizeof g_axis);
++	memset(g_cbtn, 0, sizeof g_cbtn);
++	update_rumble();
++}
++
+ bool env_on(const char* name)
+ {
+ 	const char* e = getenv(name);
