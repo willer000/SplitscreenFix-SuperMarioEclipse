@@ -265,6 +265,7 @@ class Launcher : Form {
     readonly VScrollBar vertical = new VScrollBar();
     readonly StatusPanel statusCard = new StatusPanel();
     readonly RoundedPanel marioCard = new RoundedPanel(), luigiCard = new RoundedPanel();
+    public Control SoloSaveCard { get { return marioCard; } }
     readonly RoundedPanel splitCard = new RoundedPanel(), imageCard = new RoundedPanel();
     readonly Avatar marioAvatar = new Avatar("M", Theme.Red), luigiAvatar = new Avatar("L", Theme.Green);
     readonly ModernButton refreshButton = new ModernButton(), launchButton = new ModernButton(), applyButton = new ModernButton();
@@ -1473,6 +1474,11 @@ public static class SplitFixSoloSaveV1
     }
     private static void Install()
     {
+        Launcher launcher = form as Launcher;
+        if (launcher != null) {
+            label = launcher.SoloSaveCard;
+        }
+        if (label == null) {
         System.Collections.Generic.List<System.Windows.Forms.Control> all =
             new System.Collections.Generic.List<System.Windows.Forms.Control>();
         Visit(form, all);
@@ -1481,6 +1487,7 @@ public static class SplitFixSoloSaveV1
                 label = c;
                 break;
             }
+        }
         }
         if (label == null) {
             System.Windows.Forms.MessageBox.Show(form,
@@ -1501,9 +1508,9 @@ public static class SplitFixSoloSaveV1
         label.ContextMenuStrip = menu;
         tooltip.SetToolTip(label, "Right-click: change SOLO save / Botao direito: trocar save SOLO");
         // Attach to the 1P card itself, but never to a common parent that also contains Luigi.
-        System.Windows.Forms.Control p = label.Parent;
-        if (p != null && p != form && !ContainsLuigi(p)) {
-            AttachCard(p);
+        System.Windows.Forms.Control card = launcher != null ? launcher.SoloSaveCard : label.Parent;
+        if (card != null && card != form && !ContainsLuigi(card)) {
+            AttachCard(card);
         }
         UpdateLabels();
     }
