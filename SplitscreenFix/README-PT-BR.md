@@ -11,7 +11,7 @@ O SplitscreenFix inicia o **Super Mario Eclipse v1.1.0** em duas instâncias loc
 1. Baixe `SplitscreenFix-Windows-x64.zip` na seção **Releases**.
 2. Extraia **todo o ZIP** para uma pasta, por exemplo `Documentos\SplitscreenFix`. Não execute os arquivos de dentro do ZIP.
 3. Dê dois cliques em **`Setup-Install.cmd`**. Ele chama o instalador, verifica o pacote e procura a ISO. Se não encontrar, selecione-a manualmente.
-4. Abra o atalho **SplitscreenFix - Mario e Luigi** ou, após instalar, execute `Eclipse-2-Jogadores-Rebind.exe` na pasta extraída.
+4. Abra o atalho **SplitscreenFix - Mario e Luigi** ou, após instalar, execute `SME-SplitscreenLauncher.exe` na pasta extraída.
 5. Conecte os controles, clique em **Atualizar** e atribua um controle a Mario e Luigi.
 
 A versão já compilada não deve exigir administrador, MSYS2 ou compilador.
@@ -39,8 +39,8 @@ A versão já compilada não deve exigir administrador, MSYS2 ou compilador.
 ## Arquivos e dados
 
 - `Setup-Install.cmd`: entrada de instalação com nome compreensível em PT-BR e inglês, que chama os scripts originais.
-- `Instalar.cmd`, `Instalar.ps1`: scripts originais mantidos por compatibilidade.
-- `Eclipse-2-Jogadores-Rebind.exe`: nome do launcher esperado pelo instalador existente.
+- `Install.cmd`, `Install.ps1`: scripts originais mantidos por compatibilidade.
+- `SME-SplitscreenLauncher.exe`: nome do launcher esperado pelo instalador existente.
 - `Runtime\sms-rebind.exe`: executável modificado do PC Port para Windows x64.
 - `Source\`: fontes modificados e patches, quando presentes.
 - `Assets\`, `Licenses\`: imagens e avisos de licença.
