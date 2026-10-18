@@ -1,0 +1,160 @@
+{
+  "Format": 1,
+  "Files": [
+    {
+      "Path": "Iniciar_Eclipse_Multiplayer_Controles.ps1",
+      "Sha256": "AA19903C597B7AC164A696DAD46491BB81207EB9505C71353D64BBFE8E4AC9B2",
+      "Size": 11154
+    },
+    {
+      "Path": "Iniciar_Eclipse_Solo.ps1",
+      "Sha256": "6E732FF2460725BDAF58EA8C97150997576CB2932743075241189386953AEF61",
+      "Size": 5403
+    },
+    {
+      "Path": "Install.cmd",
+      "Sha256": "0EA7D8455EECC8C64006AD9B3AC2EF787602DD5F0D1E90C381E0F78F19BF407D",
+      "Size": 200
+    },
+    {
+      "Path": "Install.ps1",
+      "Sha256": "B000C2CA90B90BE33931F6E3C5017F715498A9F42525620B079A68335B626D34",
+      "Size": 7327
+    },
+    {
+      "Path": "README-EN.md",
+      "Sha256": "B952039D40EF4372DA58AFA4BD2651EDFA6A4B28E29B2F4E69F3936FC433F2CF",
+      "Size": 4599
+    },
+    {
+      "Path": "README-PT-BR.md",
+      "Sha256": "EFE394591CB5A160018C2EF1991F5A89B0F557059AA44B2749A972E9AEBFEF64",
+      "Size": 4351
+    },
+    {
+      "Path": "README.md",
+      "Sha256": "B952039D40EF4372DA58AFA4BD2651EDFA6A4B28E29B2F4E69F3936FC433F2CF",
+      "Size": 4599
+    },
+    {
+      "Path": "SDL2.dll",
+      "Sha256": "47A3B27654832D9F7E5719C88078210A3DBFD6407B559C5A3C4EB8AB7D0EBDB6",
+      "Size": 2412441
+    },
+    {
+      "Path": "Setup-Install.cmd",
+      "Sha256": "B020A29A5FBAE515178CA2AF79095FCD06ED3E27E564207C4CE51A5AEF48C564",
+      "Size": 193
+    },
+    {
+      "Path": "SME-SplitscreenLauncher.exe",
+      "Sha256": "1D782F7D556DF324A4B70BF62E2AD099AA87A8D4ED6D787CF24C5509B74C797B",
+      "Size": 81920
+    },
+    {
+      "Path": "SplitscreenFix.Common.ps1",
+      "Sha256": "0DC3FC527B3173FA239EA0685C9C5D5896670E2C1EB5A4F07D26316744D9539B",
+      "Size": 3719
+    },
+    {
+      "Path": "Assets/EclipseBanner.jpg",
+      "Sha256": "2D9B41C5D90A5AB214DEA4F3C01BAFD01D7FF4CD8B33CDC7C1399DE17BB666B9",
+      "Size": 224731
+    },
+    {
+      "Path": "Assets/SunshineLogo.ico",
+      "Sha256": "184BFC987EA5CE62B7D2BA0F79512A0D987B567ACD2A3EDC3AFF732B53132E23",
+      "Size": 2686
+    },
+    {
+      "Path": "Assets/SunshineLogo.png",
+      "Sha256": "94BBECB58E44992B919988306CDE9F67279A2D940EFD6BFCBEBCB20D4D9A918B",
+      "Size": 28823
+    },
+    {
+      "Path": "Assets/SunshineWordmark.png",
+      "Sha256": "00D9D79AC702ABC1F61873DA1679460402A346C796D9076A3DACACC60E22622B",
+      "Size": 81731
+    },
+    {
+      "Path": "Licenses/sms-decomp-LICENSE.txt",
+      "Sha256": "36FFD9DC085D529A7E60E1276D73AE5A030B020313E6C5408593A6AE2AF39673",
+      "Size": 6555
+    },
+    {
+      "Path": "Licenses/sms-pc-port-LICENSE.txt",
+      "Sha256": "B5B8CD641483A926CB5F4F4BF85D5BD4C75899B89F7CB01DC4B8F22C15B007B4",
+      "Size": 1073
+    },
+    {
+      "Path": "Licenses/SDL2/LICENSE.txt",
+      "Sha256": "97F35B302B361680EC1E891E95D2D52097BB95ABFF361434916D99DC1305F127",
+      "Size": 884
+    },
+    {
+      "Path": "Runtime/libgcc_s_seh-1.dll",
+      "Sha256": "278F1101F2371C58B6B412A3206718E22343940A5164ACEB4FB75F2BF3B38ED4",
+      "Size": 151732
+    },
+    {
+      "Path": "Runtime/libstdc++-6.dll",
+      "Sha256": "3529D11C422B2AAF0BBAD7221BF62BA7B5A39F854E89A015BB58B6B55A677DA1",
+      "Size": 2667040
+    },
+    {
+      "Path": "Runtime/libwinpthread-1.dll",
+      "Sha256": "4869AA8AB2E7E19EE43109B8832749AA1CD9C6E5302475439EAE42D0B60B969F",
+      "Size": 65954
+    },
+    {
+      "Path": "Runtime/SDL2.dll",
+      "Sha256": "47A3B27654832D9F7E5719C88078210A3DBFD6407B559C5A3C4EB8AB7D0EBDB6",
+      "Size": 2412441
+    },
+    {
+      "Path": "Runtime/sms-rebind.exe",
+      "Sha256": "43CB00601C4318C9454B8F42D4F20F5DFD10DC4C42E7F9BC47864DE2CFCF662E",
+      "Size": 12359018
+    },
+    {
+      "Path": "Runtime/SplitscreenFix.Common.ps1",
+      "Sha256": "0DC3FC527B3173FA239EA0685C9C5D5896670E2C1EB5A4F07D26316744D9539B",
+      "Size": 3719
+    },
+    {
+      "Path": "Runtime/Start_SME-Joystick_2P.ps1",
+      "Sha256": "AA19903C597B7AC164A696DAD46491BB81207EB9505C71353D64BBFE8E4AC9B2",
+      "Size": 11154
+    },
+    {
+      "Path": "Runtime/Start_SME-Solo.ps1",
+      "Sha256": "6E732FF2460725BDAF58EA8C97150997576CB2932743075241189386953AEF61",
+      "Size": 5403
+    },
+    {
+      "Path": "Source/EclipseLauncher.cs",
+      "Sha256": "44F5C52511D957038ECEEBF9BD6B5FA8CB8F7E224AA27F0E2325A31E076EDBD5",
+      "Size": 89831
+    },
+    {
+      "Path": "Source/gx_platform.cpp",
+      "Sha256": "5ABF85AA710B31CFD8096E6A190E27D6AAF9810F90D2D03BD33281235D11E47A",
+      "Size": 45360
+    },
+    {
+      "Path": "Source/NOTAS-PARA-O-PROJETO.md",
+      "Sha256": "C590DE22D084DD4BF03623115192975B3962E8B41F2235A3CF8C0ABFBB7E4708",
+      "Size": 1783
+    },
+    {
+      "Path": "Source/pad.cpp",
+      "Sha256": "538B95CE6F5F2CD46E3AD209DED74349E5E67656B970601606E4031AE237A981",
+      "Size": 30738
+    },
+    {
+      "Path": "Source/sms-live-controller-rebind.patch",
+      "Sha256": "7AC063DE65C585E930A8AA6877DB1E6202684C4B1871DFAEA19D7A34E8C48251",
+      "Size": 5965
+    }
+  ]
+}
